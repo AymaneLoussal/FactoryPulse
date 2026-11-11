@@ -1,7 +1,7 @@
 # FactoryPulse
 
 Socle React/Vite en JavaScript/JSX (FC-6), routage (FC-7) et mécanisme de
-chargement avec état partagé (FC-8, en cours faute de données officielles).
+chargement avec état partagé et jeu officiel de huit machines (FC-8 en cours).
 
 ## Lancer le projet
 
@@ -36,7 +36,7 @@ src/
     Machines.jsx
     AddMachine.jsx
   styles/global.css           # fondations et mise en page de base
-public/                       # destination du machines.json officiel manquant
+public/machines.json          # huit machines officielles fournies par l’utilisateur
 design/                       # SVG existants conservés
 docs/                         # cadrage, architecture et résultats des vérifications
 ```
@@ -58,14 +58,14 @@ App charge `/machines.json` avec Fetch dans useEffect et partage `machines`,
 Une réponse HTTP en échec, une erreur réseau, un JSON invalide ou une valeur qui
 n’est pas un tableau produisent un message d’erreur ; `[]` est un succès vide.
 
-**Le fichier officiel des huit machines est absent.** Aucun fichier de remplacement
-n’est créé dans public/. L’application affiche donc une erreur de chargement
-jusqu’à réception du fichier original et vérification de son schéma. Vite peut
-renvoyer index.html pour ce fichier absent : cette réponse est traitée comme JSON
-invalide, jamais comme un parc vide. Le build peut réussir sans les données.
+Le fichier officiel `public/machines.json` contient exactement les huit machines
+fournies par l’utilisateur, sans modification de valeurs. JSON, champs, IDs
+uniques, statuts et productions entières non négatives ont été contrôlés.
+Le chargement réel et la restauration au refresh sont vérifiés sur dev et preview.
 
-Les tests de FC-8 utilisent une fixture temporaire explicitement non officielle,
-servie uniquement par interception Playwright dans `.verification/` ignoré par Git.
+Les tests de succès réel utilisent ce fichier sans interception. Les scénarios
+de loading, erreur et parc vide utilisent une fixture temporaire explicitement
+non officielle, servie par interception dans `.verification/` ignoré par Git.
 Voir [les résultats et limites FC-8](docs/verification-fc8.md).
 Statistiques, recherche, filtres et CRUD ne sont pas implémentés. Aucun backend
 ni stockage persistant n’est ajouté ; le JSON n’est jamais écrit par l’application.

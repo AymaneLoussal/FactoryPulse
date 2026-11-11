@@ -1,19 +1,24 @@
 # FC-8 — Chargement et état partagé (en cours)
 
-Vérification du 11 novembre 2026. Départ : main propre, commit 39098d0.
-FC-6 et FC-7 vérifiés Done dans Jira avant le développement.
+Vérification mise à jour le 11 novembre 2026 après réception du jeu officiel.
+Départ de cette reprise : main propre, commit c2dd392 ; FC-8 In Progress.
+FC-6 et FC-7 avaient été vérifiés Done avant le développement initial.
 
-## Blocage des données officielles
+## Données officielles reçues et validées
 
-Recherche dans tout le workspace, y compris fichiers cachés et ignorés hors
-dépendances : aucun machines.json. public/ ne contenait que favicon.svg et
-.gitkeep. Le cadrage signale aussi l’absence des huit machines officielles.
-Aucune donnée officielle n’est inventée ; public/machines.json n’est pas créé.
+Le blocage initial est levé : l’utilisateur a fourni directement les huit
+enregistrements officiels. public/machines.json reprend exactement les valeurs
+et l’ordre de son JSON. Aucun nom, ID, zone, statut ou production modifié.
 
-Le fichier original doit être fourni pour confirmer sa provenance, ses noms de
-propriétés, les huit enregistrements, leurs identifiants et les règles du modèle.
-Le mécanisme actuel vérifie la forme tableau ; il ne certifie pas les champs
-d’enregistrements dont le schéma officiel n’a pas encore été vu.
+`node .verification/fc8-validate.mjs` a confirmé la syntaxe JSON, un array de huit
+enregistrements, les IDs uniques M-001 à M-008, exactement les champs id/name/
+zone/status/dailyProduction, les textes requis, les trois statuts autorisés et
+des productions entières non négatives. Les valeurs sont comparées une à une
+à la transcription du message utilisateur, sans normalisation.
+SHA-256 initial des octets :
+`7adf0704cd5356153baca9d45f09b57add07532293d68375f893c657e6102e4d`.
+Le loader App.jsx existant est réutilisé sans modification ; le contrôle des
+enregistrements est effectué sur le fichier livré, sans ajout de CRUD.
 
 ## Travail réalisé
 
@@ -38,7 +43,8 @@ validation ne sont pas revendiquées dans ce travail.
   Fichier dans `.verification/fc8-fixture.json`, ignoré par Git. Il est servi
   uniquement par interception réseau du navigateur de test, jamais par public/.
 - Script local ignoré : `node .verification/fc8-loading.cjs` ; 18 scénarios
-  navigateur réussis, neuf sur chaque serveur.
+  navigateur réussis, neuf sur chaque serveur : huit scénarios interceptés et
+  un scénario de chargement du vrai fichier sans interception.
 
 | Cas | Résultat sur dev et preview |
 | --- | --- |
@@ -49,7 +55,7 @@ validation ne sont pas revendiquées dans ce travail.
 | JSON invalide | Erreur explicite de JSON ; aucun faux parc vide |
 | Objet JSON ou null | Erreur explicite : tableau attendu |
 | Tableau vide [] | Succès vide, sans erreur ; navigation vers l’ajout possible |
-| Fichier officiel absent, sans interception | Message d’erreur ; aucune donnée ou liste vide de remplacement |
+| Vrai fichier officiel, sans interception | HTTP 200 et contenu exact ; huit machines dans App, même array sur les trois pages |
 
 Dans le scénario de succès, une sonde React DevTools injectée uniquement par le
 test récupère le setter existant de machines. Elle simule une mise à jour
@@ -57,32 +63,45 @@ fonctionnelle avec map et copies d’objets, sans API ni commande CRUD ajoutée 
 l’application. Le tableau initial et son objet restent inchangés. Les trois
 routes et le retour navigateur conservent la nouvelle référence partagée et
 n’émettent aucune nouvelle requête JSON. Un refresh refait la requête et restaure
-la fixture initiale. Ces contrôles portent sur la fixture, pas sur les huit
-machines officielles ni sur de futurs callbacks métier.
+la fixture initiale.
+
+Le scénario réel charge le fichier officiel par Fetch sans interception et
+compare les huit enregistrements au fichier disque. Une lecture HTTP indépendante
+confirme aussi les mêmes octets sur les deux serveurs. Le setter React est exercé
+uniquement par la sonde de test avec `previous => previous.slice(1)` : aucun champ
+de machine n’est changé, aucun objet modifié et l’array original reste intact.
+La nouvelle référence à sept éléments est conservée sur les trois pages, back et
+forward, sans autre fetch. Refresh relance Fetch et restaure exactement les huit
+enregistrements officiels. Aucun contrôle, fonction CRUD ou sonde ajouté dans App.
 
 Pour chaque scénario : indicateur loading présent puis absent, props partagées
 contrôlées, seuls des GET vers machines.json, aucun contenu localStorage ou
 sessionStorage et aucune exception JavaScript non traitée. Les erreurs HTTP et
 réseau simulées peuvent apparaître dans la console réseau, comme attendu.
-La fixture est identique avant/après et public/machines.json reste absent.
+La fixture et les octets de public/machines.json sont identiques avant/après.
+dist/machines.json est identique au fichier officiel. Le scénario réel ne produit
+aucune erreur console. Le contrôle de validation JSON est relancé après les tests.
 
 ## État des critères Jira
 
 | Critère | Vérification actuelle |
 | --- | --- |
-| Fetch/useEffect depuis /machines.json | Mécanisme vérifié avec fixture ; fichier officiel manquant |
+| Fetch/useEffect depuis /machines.json | Vérifié avec les huit machines officielles, sans interception |
 | Erreurs HTTP, réseau et JSON | Vérifié |
 | Loading visible puis terminé | Vérifié |
 | Tableau vide valide | Vérifié |
 | Source d’état unique sur les pages | Vérifié par identité de référence |
 | Fonctions de modification immuables | Non implémentées sous la contrainte sans CRUD ; seul le setter React est exercé par le test |
-| Conservation en navigation | Vérifiée par mise à jour synthétique ; vrais parcours métier différés |
-| Restauration au refresh | Vérifiée avec fixture ; contrôle officiel restant |
-| JSON inchangé et absence de persistance | Aucun appel d’écriture ; fixture inchangée ; contrôle du fichier officiel restant |
+| Conservation en navigation | Vérifiée avec état issu du fichier officiel et remplacement synthétique ; vrais parcours métier différés |
+| Restauration au refresh | Vérifiée : retour exact aux huit machines officielles |
+| JSON inchangé et absence de persistance | Vérifié : fichier intact, GET uniquement, aucun stockage ajouté |
 | États indépendants du CRUD | Vérifié |
 
-FC-8 reste In Progress. Les résultats ne permettent pas de déclarer tous les
-critères satisfaits. Aucun autre ticket n’est commencé ou modifié, aucun push.
+FC-8 reste In Progress uniquement pour le critère des fonctions de modification
+effectives, non implémentées sous la consigne explicite sans CRUD. Le remplacement
+immuable dans le test ne valide pas des callbacks métier inexistants. Le blocage
+du fichier manquant est levé ; il ne justifie plus le statut. Aucun autre ticket
+n’est commencé ou modifié, aucun push.
 
 ## Références
 

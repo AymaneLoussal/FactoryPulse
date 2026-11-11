@@ -1,0 +1,58 @@
+[
+  {
+    "id": "M-001",
+    "name": "Robot de soudage",
+    "zone": "Atelier A",
+    "status": "En fonctionnement",
+    "dailyProduction": 125
+  },
+  {
+    "id": "M-002",
+    "name": "Presse hydraulique",
+    "zone": "Atelier B",
+    "status": "En panne",
+    "dailyProduction": 0
+  },
+  {
+    "id": "M-003",
+    "name": "Convoyeur automatique",
+    "zone": "Atelier A",
+    "status": "En fonctionnement",
+    "dailyProduction": 340
+  },
+  {
+    "id": "M-004",
+    "name": "Machine de découpe laser",
+    "zone": "Atelier C",
+    "status": "À l'arrêt",
+    "dailyProduction": 80
+  },
+  {
+    "id": "M-005",
+    "name": "Robot d'assemblage",
+    "zone": "Atelier B",
+    "status": "En fonctionnement",
+    "dailyProduction": 210
+  },
+  {
+    "id": "M-006",
+    "name": "Station de contrôle qualité",
+    "zone": "Atelier C",
+    "status": "En panne",
+    "dailyProduction": 0
+  },
+  {
+    "id": "M-007",
+    "name": "Imprimante industrielle 3D",
+    "zone": "Atelier D",
+    "status": "À l'arrêt",
+    "dailyProduction": 45
+  },
+  {
+    "id": "M-008",
+    "name": "Ligne de conditionnement",
+    "zone": "Atelier D",
+    "status": "En fonctionnement",
+    "dailyProduction": 460
+  }
+]

@@ -32,9 +32,12 @@ le chargement. Les futurs callbacks seront ajoutés avec les fonctionnalités.
 Le useEffect appelle uniquement `fetch('/machines.json')`, vérifie `response.ok`,
 lit response.json() et exige Array.isArray(data). Une réponse `[]` est valide.
 Le tableau reçu remplace l’état sans mutation directe ; aucun push/splice ou
-changement d’objet n’est effectué. Les champs des enregistrements ne sont pas
-encore certifiés : le schéma et les huit machines devront être contrôlés sur
-le fichier officiel, toujours absent. Aucun remplacement inventé n’est ajouté.
+changement d’objet n’est effectué. Le fichier officiel fourni par l’utilisateur
+est maintenant dans public/machines.json : huit machines, schéma id/name/zone/
+status/dailyProduction, IDs uniques, statuts autorisés et production entière
+non négative contrôlés. Toutes les valeurs et leur ordre sont conservés.
+Le contrôle des enregistrements est une vérification du fichier livré ; le loader
+à l’exécution conserve son contrôle Array.isArray et son traitement d’erreurs.
 
 L’effet a des dépendances vides : il ne dépend pas de l’URL ni de machines.
 Son nettoyage désactive les mises à jour tardives et annule Fetch avec
@@ -43,8 +46,8 @@ lancer puis annuler une première requête ; ce n’est pas un rechargement par 
 
 Les futures modifications produiront de nouveaux tableaux/objets avec des mises
 à jour fonctionnelles de l’état. Le JSON restera inchangé ; un vrai refresh
-recrée App et recharge son contenu initial. Ce comportement est vérifié avec
-une fixture temporaire, pas encore avec le fichier officiel.
+recrée App et recharge son contenu initial. Ce comportement est maintenant vérifié
+avec le vrai fichier officiel sur dev et production preview, sans interception.
 Aucun localStorage, sessionStorage ni IndexedDB.
 
 Les statistiques seront dérivées du tableau partagé (FC-9), sans état redondant.
@@ -104,9 +107,9 @@ BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال ا
 
 `loading` كيبين انتظار الجواب، و`error` كيبين علاش التحميل فشل. array خاوية
 كتعني نجاح بلا ماكينات، ماشي خطأ. refresh كيعيد تركيب App وكيطلب JSON من جديد؛
-مع fixture ديال الاختبار تأكدنا أنه كيرجع المحتوى الأول، بلا تخزين دائم.
-مع الملف الرسمي هاد التحقق باقي حتى يتوفر. الإضافة والحذف وتغيير الحالة ما تزادوش.
+تأكدنا مع الملف الرسمي أنه كيرجع نفس الثمانية ماكينات، بلا تخزين دائم.
+الإضافة والحذف وتغيير الحالة ما تزادوش.
 
-`public/` واجد للملف الرسمي machines.json، ولكن ما زدناش بيانات من عندنا.
+`public/machines.json` فيه دابا نفس البيانات الرسمية اللي عطا المستخدم، بلا تبديل.
 `design/` وملف cadrage.md بقاو كيف كانو. `node_modules/` فيه المكتبات
 و`dist/` فيه نتيجة build؛ بجوج مستثنيين من Git.
