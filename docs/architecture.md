@@ -1,17 +1,20 @@
-# Architecture prévue et socle FC-6
+# Architecture — socle FC-6 et navigation FC-7
 
 ## Ce qui est implémenté
 
-Une application React/Vite JavaScript, trois pages statiques montées dans un
-layout commun, un titre de page et un panneau réutilisables, ainsi que du CSS
-global. Le montage des trois pages permet de contrôler le socle sans anticiper
-React Router. Les fonctions métier ci-dessous sont des contrats prévus, pas des
+Une application React/Vite JavaScript, trois pages statiques reliées par
+BrowserRouter, Routes et Route dans un layout commun. Navigation utilise NavLink
+avec correspondance exacte et aria-current pour identifier la page active.
+Les liens de parcours utilisent Link. App et AppLayout restent hors de Routes,
+sans clé dépendant de l’URL : les pages changent, leur ancêtre commun reste monté.
+Le titre de page, le panneau réutilisable et le CSS du socle sont conservés.
+Les fonctions métier ci-dessous sont des contrats prévus, pas des
 fonctions déjà implémentées.
 
 ## Propriété de l’état et contrats futurs
 
 `App` sera le propriétaire unique de `machines`, avec `useState` (FC-8).
-Il restera monté au-dessus des pages routées par React Router (FC-7).
+Il reste déjà monté au-dessus des pages routées par React Router (FC-7).
 Les pages recevront les données et callbacks par props : changer de route
 ne devra ni recréer cet état ni relancer son chargement.
 
@@ -40,7 +43,7 @@ resteront locales à AddMachine (FC-12). Statuts autorisés : En fonctionnement,
 | --- | --- | --- |
 | `AppLayout` | En-tête, lien d’évitement, contenu commun | Créé |
 | `PageHeading`, `Panel` | Présentation commune via props et children | Créés |
-| Navigation | Liens React Router et page active | Prévu FC-7 |
+| Navigation | Liens React Router et page active | Créé FC-7 |
 | StatCard | Affichage d’une statistique dérivée | Prévu FC-9 |
 | SearchInput, StatusFilter | Recherche et filtre contrôlés | Prévus FC-10 |
 | MachineList, MachineCard | Liste et informations des machines | Prévus FC-10 |
@@ -54,8 +57,18 @@ Le CSS de base reprend la palette des SVG ; la finalisation responsive relève d
 ## شرح بالدارجة
 
 `index.html` فيه العنصر `root`. `main.jsx` كيربط React بهاد العنصر وكيحمّل CSS.
-`App.jsx` كيجمع التطبيق، ودابا كيعرض الصفحات الثلاثة غير كهيكلة أولية.
-فـ FC-7 غادي نركبو React Router باش كل رابط يعرض الصفحة ديالو.
+`App.jsx` كيجمع التطبيق. `BrowserRouter` فـ main.jsx كيربط React بعنوان
+المتصفح وhistory. `Routes` كيلقى المسار المناسب، وكل `Route` كيربط عنوان
+بصفحة: / للـ Dashboard، /machines للائحة، و/machines/new للإضافة.
+
+`Link` كينقل بين الصفحات بلا ما يعاود يحمّل الوثيقة كاملة. `NavLink`
+كيزيد يعرف واش الرابط هو النشيط، وكيضيف aria-current="page"؛ CSS كيبيّن
+الصفحة الحالية. استعملنا end باش رابط Machines ما يبقاش نشيط فصفحة الإضافة.
+BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال المتصفح.
+
+`App` و`AppLayout` خارج Routes، يعني كيبقاو مركّبين ملي كتبدّل الصفحة.
+غير الصفحة المطابقة كتتبدل؛ ما كنعاودوش createRoot وما كنربطوش key بالعنوان.
+الحفاظ الفعلي على تغييرات الماكينات غادي يتجرب ملي تتزاد البيانات والعمليات.
 
 `AppLayout` هو الإطار المشترك: العنوان والمحتوى الرئيسي. `PageHeading`
 كيستقبل العنوان والوصف عبر props، و`Panel` كيستقبل المحتوى عبر children.

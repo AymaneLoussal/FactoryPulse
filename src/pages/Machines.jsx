@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import PageHeading from '../components/ui/PageHeading.jsx'
 import Panel from '../components/ui/Panel.jsx'
 
@@ -12,6 +13,7 @@ export default function Machines() {
       <Panel>
         <p>L’espace de consultation des machines sera disponible ici.</p>
       </Panel>
+      <Link className="text-link" to="/machines/new">+ Ajouter une machine</Link>
     </section>
   )
 }

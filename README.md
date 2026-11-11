@@ -1,6 +1,6 @@
 # FactoryPulse
 
-Socle React/Vite en JavaScript/JSX préparé pour FC-6.
+Socle React/Vite en JavaScript/JSX (FC-6), avec routage et navigation (FC-7).
 
 ## Lancer le projet
 
@@ -26,6 +26,7 @@ src/
   App.jsx                     # composition ; futur propriétaire de l’état partagé
   components/
     layout/AppLayout.jsx      # en-tête et contenu principal communs
+    layout/Navigation.jsx     # liens internes et indication de page active
     ui/PageHeading.jsx        # titre et description réutilisables
     ui/Panel.jsx              # conteneur visuel réutilisable
   pages/
@@ -38,15 +39,21 @@ design/                       # SVG existants conservés
 docs/                         # cadrage existant et architecture FC-6
 ```
 
-Les trois pages sont affichées ensemble temporairement pour vérifier leur montage.
-FC-7 remplacera cette composition par une page par route. Ce socle ne constitue
-pas l’implémentation finale des maquettes.
+React Router affiche une seule page à la fois : `/` (Dashboard), `/machines`
+(Machines), `/machines/new` (AddMachine). Une URL inconnue affiche un message
+avec un retour au dashboard. La navigation commune et les liens de page utilisent
+NavLink/Link, sans rechargement complet. App et AppLayout restent montés.
+Ce socle ne constitue pas l’implémentation finale des maquettes.
+
+Pour un futur hébergement statique, configurer le serveur pour servir index.html
+sur les URL applicatives : BrowserRouter utilise de vraies URL. L’accès direct et
+le rechargement des trois routes sont vérifiés avec Vite dev et preview.
 
 ## Périmètre
 
-FC-6 prépare les fichiers et composants. Routes, chargement JSON, statistiques,
-recherche, filtres, ajout, validation et suppression sont réservés aux tickets
-suivants. Aucun chiffre fictif, backend ni stockage persistant n’est ajouté.
+FC-6 prépare les fichiers et composants ; FC-7 relie les pages. Chargement JSON,
+statistiques, recherche, filtres, ajout, validation et suppression restent aux
+tickets suivants. Aucun chiffre fictif, backend ni stockage persistant n’est ajouté.
 Le fichier officiel des huit machines reste à fournir pour FC-8.
 
 Les responsabilités, contrats futurs et explications en darija sont détaillés
@@ -55,6 +62,7 @@ dans [docs/architecture.md](docs/architecture.md).
 ## Références
 
 - [Jira FC-6](https://aymanloussal552.atlassian.net/browse/FC-6)
+- [Jira FC-7](https://aymanloussal552.atlassian.net/browse/FC-7)
 - [Jira FC-5](https://aymanloussal552.atlassian.net/browse/FC-5)
 - [Figma FactoryPulse](https://www.figma.com/design/ACEt89uMPgv70DYOC7VhKj)
 - [GitHub](https://github.com/AymaneLoussal/FactoryPulse)
