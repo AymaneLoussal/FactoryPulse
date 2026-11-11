@@ -1,6 +1,7 @@
 # FactoryPulse
 
-Socle React/Vite en JavaScript/JSX (FC-6), avec routage et navigation (FC-7).
+Socle React/Vite en JavaScript/JSX (FC-6), routage (FC-7) et mécanisme de
+chargement avec état partagé (FC-8, en cours faute de données officielles).
 
 ## Lancer le projet
 
@@ -23,20 +24,21 @@ Le serveur de développement affiche son URL dans le terminal.
 ```text
 src/
   main.jsx                    # montage React et styles globaux
-  App.jsx                     # composition ; futur propriétaire de l’état partagé
+  App.jsx                     # état partagé et Fetch/useEffect initial
   components/
     layout/AppLayout.jsx      # en-tête et contenu principal communs
     layout/Navigation.jsx     # liens internes et indication de page active
     ui/PageHeading.jsx        # titre et description réutilisables
     ui/Panel.jsx              # conteneur visuel réutilisable
+    ui/MachineDataState.jsx    # chargement, erreur et parc vide communs
   pages/
     Dashboard.jsx
     Machines.jsx
     AddMachine.jsx
   styles/global.css           # fondations et mise en page de base
-public/                       # futur machines.json officiel
+public/                       # destination du machines.json officiel manquant
 design/                       # SVG existants conservés
-docs/                         # cadrage existant et architecture FC-6
+docs/                         # cadrage, architecture et résultats des vérifications
 ```
 
 React Router affiche une seule page à la fois : `/` (Dashboard), `/machines`
@@ -51,10 +53,22 @@ le rechargement des trois routes sont vérifiés avec Vite dev et preview.
 
 ## Périmètre
 
-FC-6 prépare les fichiers et composants ; FC-7 relie les pages. Chargement JSON,
-statistiques, recherche, filtres, ajout, validation et suppression restent aux
-tickets suivants. Aucun chiffre fictif, backend ni stockage persistant n’est ajouté.
-Le fichier officiel des huit machines reste à fournir pour FC-8.
+App charge `/machines.json` avec Fetch dans useEffect et partage `machines`,
+`loading` et `error` par props. Le chargement ne dépend pas de la route.
+Une réponse HTTP en échec, une erreur réseau, un JSON invalide ou une valeur qui
+n’est pas un tableau produisent un message d’erreur ; `[]` est un succès vide.
+
+**Le fichier officiel des huit machines est absent.** Aucun fichier de remplacement
+n’est créé dans public/. L’application affiche donc une erreur de chargement
+jusqu’à réception du fichier original et vérification de son schéma. Vite peut
+renvoyer index.html pour ce fichier absent : cette réponse est traitée comme JSON
+invalide, jamais comme un parc vide. Le build peut réussir sans les données.
+
+Les tests de FC-8 utilisent une fixture temporaire explicitement non officielle,
+servie uniquement par interception Playwright dans `.verification/` ignoré par Git.
+Voir [les résultats et limites FC-8](docs/verification-fc8.md).
+Statistiques, recherche, filtres et CRUD ne sont pas implémentés. Aucun backend
+ni stockage persistant n’est ajouté ; le JSON n’est jamais écrit par l’application.
 
 Les responsabilités, contrats futurs et explications en darija sont détaillés
 dans [docs/architecture.md](docs/architecture.md).
@@ -63,6 +77,7 @@ dans [docs/architecture.md](docs/architecture.md).
 
 - [Jira FC-6](https://aymanloussal552.atlassian.net/browse/FC-6)
 - [Jira FC-7](https://aymanloussal552.atlassian.net/browse/FC-7)
+- [Jira FC-8](https://aymanloussal552.atlassian.net/browse/FC-8)
 - [Jira FC-5](https://aymanloussal552.atlassian.net/browse/FC-5)
 - [Figma FactoryPulse](https://www.figma.com/design/ACEt89uMPgv70DYOC7VhKj)
 - [GitHub](https://github.com/AymaneLoussal/FactoryPulse)
