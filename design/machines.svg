@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1810" height="2190" viewBox="0 0 1810 2190" role="img" aria-labelledby="title">
+  <title id="title">FactoryPulse — machines — design et wireframes desktop et mobile</title>
+  <rect x="0" y="0" width="1810" height="2190" rx="0" fill="#e7ece9" />
+  <text x="40" y="45" font-family="Arial, sans-serif" font-size="27" fill="#132c2b" font-weight="700">FactoryPulse / Machines / FC-5</text>
+  <text x="40" y="76" font-family="Arial, sans-serif" font-size="16" fill="#526967" font-weight="400">Maquettes statiques • emplacements réservés, aucune donnée officielle représentée</text>
+  <text x="40" y="110" font-family="Arial, sans-serif" font-size="18" fill="#132c2b" font-weight="400">Design — ordinateur 1280 px</text>
+  <text x="1360" y="110" font-family="Arial, sans-serif" font-size="18" fill="#132c2b" font-weight="400">Design — mobile 375 px</text>
+  <g id="Design-Desktop">
+    <title>Design Desktop</title>
+    <rect x="40" y="130" width="1280" height="950" rx="16" fill="#f3f6f5" stroke="#d4dfdc" />
+    <rect x="40" y="130" width="1280" height="76" rx="0" fill="#132c2b" />
+    <text x="76" y="163" font-family="Arial, sans-serif" font-size="21" fill="#fff" font-weight="700">FactoryPulse</text>
+    <text x="76" y="185" font-family="Arial, sans-serif" font-size="10" fill="#a8cfbf" font-weight="600">SUPERVISION INDUSTRIELLE</text>
+    <text x="380" y="174" font-family="Arial, sans-serif" font-size="15" fill="#fff" font-weight="600">Dashboard</text>
+    <text x="515" y="174" font-family="Arial, sans-serif" font-size="15" fill="#fff" font-weight="600">Machines</text>
+    <text x="76" y="242" font-family="Arial, sans-serif" font-size="32" fill="#132c2b" font-weight="700">Parc de machines</text>
+    <text x="76" y="269" font-family="Arial, sans-serif" font-size="16" fill="#526967" font-weight="400">Suivez l’état de votre parc industriel.</text>
+    <rect x="1074" y="218" width="210" height="44" rx="8" fill="#12695c" />
+    <text x="1088" y="246" font-family="Arial, sans-serif" font-size="14" fill="#fff" font-weight="600">+ Ajouter une machine</text>
+    <text x="76" y="299" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Rechercher par nom</text>
+    <rect x="76" y="311" width="591.92" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="88" y="340" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Nom de la machine…</text>
+    <text x="704.16" y="299" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Statut</text>
+    <rect x="704.16" y="311" width="338.24" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="716.16" y="340" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Tous  ▾</text>
+    <rect x="1124" y="313" width="160" height="44" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1138" y="341" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Réinitialiser</text>
+    <text x="76" y="399" font-family="Arial, sans-serif" font-size="15" fill="#526967" font-weight="600">Informations d’une machine</text>
+    <rect x="76" y="419" width="1208" height="146" rx="12" fill="#fff" stroke="#d4dfdc" />
+    <text x="94" y="450" font-family="Arial, sans-serif" font-size="22" fill="#132c2b" font-weight="600">[Nom de la machine]</text>
+    <text x="94" y="479" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Zone : [zone de production]</text>
+    <text x="94" y="503" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Production : [valeur] unités / jour</text>
+    <text x="974" y="443" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Statut</text>
+    <rect x="974" y="455" width="280" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="986" y="484" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">En fonctionnement  ▾</text>
+    <rect x="94" y="583" width="180" height="44" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="108" y="611" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Supprimer</text>
+    <text x="76" y="1032" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Les changements restent en mémoire.</text>
+    <text x="76" y="1055" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Un rechargement restaure les données initiales.</text>
+  </g>
+  <g id="Design-Mobile">
+    <title>Design Mobile</title>
+    <rect x="1360" y="130" width="375" height="950" rx="16" fill="#f3f6f5" stroke="#d4dfdc" />
+    <rect x="1360" y="130" width="375" height="76" rx="0" fill="#132c2b" />
+    <text x="1380" y="163" font-family="Arial, sans-serif" font-size="21" fill="#fff" font-weight="700">FactoryPulse</text>
+    <text x="1380" y="185" font-family="Arial, sans-serif" font-size="10" fill="#a8cfbf" font-weight="600">SUPERVISION INDUSTRIELLE</text>
+    <rect x="1380" y="218" width="335" height="40" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1392" y="243" font-family="Arial, sans-serif" font-size="13" fill="#132c2b" font-weight="400">Dashboard     /     Machines</text>
+    <text x="1380" y="295" font-family="Arial, sans-serif" font-size="25" fill="#132c2b" font-weight="700">Parc de machines</text>
+    <text x="1380" y="322" font-family="Arial, sans-serif" font-size="13" fill="#526967" font-weight="400">Suivez l’état de votre parc industriel.</text>
+    <rect x="1380" y="352" width="335" height="44" rx="8" fill="#12695c" />
+    <text x="1394" y="380" font-family="Arial, sans-serif" font-size="14" fill="#fff" font-weight="600">+ Ajouter une machine</text>
+    <text x="1380" y="428" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Rechercher par nom</text>
+    <rect x="1380" y="440" width="335" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1392" y="469" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Nom de la machine…</text>
+    <text x="1380" y="518" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Statut</text>
+    <rect x="1380" y="530" width="335" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1392" y="559" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Tous  ▾</text>
+    <rect x="1380" y="600" width="335" height="44" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1394" y="628" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Réinitialiser les filtres</text>
+    <text x="1380" y="672" font-family="Arial, sans-serif" font-size="15" fill="#526967" font-weight="600">Informations d’une machine</text>
+    <rect x="1380" y="692" width="335" height="214" rx="12" fill="#fff" stroke="#d4dfdc" />
+    <text x="1398" y="723" font-family="Arial, sans-serif" font-size="17" fill="#132c2b" font-weight="600">[Nom de la machine]</text>
+    <text x="1398" y="752" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Zone : [zone de production]</text>
+    <text x="1398" y="776" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">Production : [valeur] unités / jour</text>
+    <text x="1398" y="803" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Statut</text>
+    <rect x="1398" y="815" width="299" height="46" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1410" y="844" font-family="Arial, sans-serif" font-size="14" fill="#526967" font-weight="400">En fonctionnement  ▾</text>
+    <rect x="1398" y="916" width="299" height="44" rx="8" fill="#fff" stroke="#d4dfdc" />
+    <text x="1412" y="944" font-family="Arial, sans-serif" font-size="14" fill="#132c2b" font-weight="600">Supprimer</text>
+    <text x="1380" y="1032" font-family="Arial, sans-serif" font-size="12" fill="#526967" font-weight="400">Les changements restent en mémoire.</text>
+    <text x="1380" y="1055" font-family="Arial, sans-serif" font-size="11" fill="#526967" font-weight="400">Un rechargement restaure les données initiales.</text>
+  </g>
+  <text x="40" y="1130" font-family="Arial, sans-serif" font-size="18" fill="#202020" font-weight="400">Wireframe — structure ordinateur</text>
+  <text x="1360" y="1130" font-family="Arial, sans-serif" font-size="18" fill="#202020" font-weight="400">Wireframe — mobile</text>
+  <g id="Wireframe-Desktop">
+    <title>Wireframe Desktop</title>
+    <rect x="40" y="1150" width="1280" height="950" rx="16" fill="#f4f4f4" stroke="#c6c6c6" />
+    <rect x="40" y="1150" width="1280" height="76" rx="0" fill="#202020" />
+    <text x="76" y="1183" font-family="Arial, sans-serif" font-size="21" fill="#fff" font-weight="700">FactoryPulse</text>
+    <text x="76" y="1205" font-family="Arial, sans-serif" font-size="10" fill="#a8cfbf" font-weight="600">SUPERVISION INDUSTRIELLE</text>
+    <text x="380" y="1194" font-family="Arial, sans-serif" font-size="15" fill="#fff" font-weight="600">Dashboard</text>
+    <text x="515" y="1194" font-family="Arial, sans-serif" font-size="15" fill="#fff" font-weight="600">Machines</text>
+    <text x="76" y="1262" font-family="Arial, sans-serif" font-size="32" fill="#202020" font-weight="700">Parc de machines</text>
+    <text x="76" y="1289" font-family="Arial, sans-serif" font-size="16" fill="#606060" font-weight="400">Suivez l’état de votre parc industriel.</text>
+    <rect x="1074" y="1238" width="210" height="44" rx="8" fill="#333333" />
+    <text x="1088" y="1266" font-family="Arial, sans-serif" font-size="14" fill="#fff" font-weight="600">+ Ajouter une machine</text>
+    <text x="76" y="1319" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Rechercher par nom</text>
+    <rect x="76" y="1331" width="591.92" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="88" y="1360" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Nom de la machine…</text>
+    <text x="704.16" y="1319" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Statut</text>
+    <rect x="704.16" y="1331" width="338.24" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="716.16" y="1360" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Tous  ▾</text>
+    <rect x="1124" y="1333" width="160" height="44" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1138" y="1361" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Réinitialiser</text>
+    <text x="76" y="1419" font-family="Arial, sans-serif" font-size="15" fill="#606060" font-weight="600">Informations d’une machine</text>
+    <rect x="76" y="1439" width="1208" height="146" rx="12" fill="#fff" stroke="#c6c6c6" />
+    <text x="94" y="1470" font-family="Arial, sans-serif" font-size="22" fill="#202020" font-weight="600">[Nom de la machine]</text>
+    <text x="94" y="1499" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Zone : [zone de production]</text>
+    <text x="94" y="1523" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Production : [valeur] unités / jour</text>
+    <text x="974" y="1463" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Statut</text>
+    <rect x="974" y="1475" width="280" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="986" y="1504" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">En fonctionnement  ▾</text>
+    <rect x="94" y="1603" width="180" height="44" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="108" y="1631" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Supprimer</text>
+    <text x="76" y="2052" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Les changements restent en mémoire.</text>
+    <text x="76" y="2075" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Un rechargement restaure les données initiales.</text>
+  </g>
+  <g id="Wireframe-Mobile">
+    <title>Wireframe Mobile</title>
+    <rect x="1360" y="1150" width="375" height="950" rx="16" fill="#f4f4f4" stroke="#c6c6c6" />
+    <rect x="1360" y="1150" width="375" height="76" rx="0" fill="#202020" />
+    <text x="1380" y="1183" font-family="Arial, sans-serif" font-size="21" fill="#fff" font-weight="700">FactoryPulse</text>
+    <text x="1380" y="1205" font-family="Arial, sans-serif" font-size="10" fill="#a8cfbf" font-weight="600">SUPERVISION INDUSTRIELLE</text>
+    <rect x="1380" y="1238" width="335" height="40" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1392" y="1263" font-family="Arial, sans-serif" font-size="13" fill="#202020" font-weight="400">Dashboard     /     Machines</text>
+    <text x="1380" y="1315" font-family="Arial, sans-serif" font-size="25" fill="#202020" font-weight="700">Parc de machines</text>
+    <text x="1380" y="1342" font-family="Arial, sans-serif" font-size="13" fill="#606060" font-weight="400">Suivez l’état de votre parc industriel.</text>
+    <rect x="1380" y="1372" width="335" height="44" rx="8" fill="#333333" />
+    <text x="1394" y="1400" font-family="Arial, sans-serif" font-size="14" fill="#fff" font-weight="600">+ Ajouter une machine</text>
+    <text x="1380" y="1448" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Rechercher par nom</text>
+    <rect x="1380" y="1460" width="335" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1392" y="1489" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Nom de la machine…</text>
+    <text x="1380" y="1538" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Statut</text>
+    <rect x="1380" y="1550" width="335" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1392" y="1579" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Tous  ▾</text>
+    <rect x="1380" y="1620" width="335" height="44" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1394" y="1648" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Réinitialiser les filtres</text>
+    <text x="1380" y="1692" font-family="Arial, sans-serif" font-size="15" fill="#606060" font-weight="600">Informations d’une machine</text>
+    <rect x="1380" y="1712" width="335" height="214" rx="12" fill="#fff" stroke="#c6c6c6" />
+    <text x="1398" y="1743" font-family="Arial, sans-serif" font-size="17" fill="#202020" font-weight="600">[Nom de la machine]</text>
+    <text x="1398" y="1772" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Zone : [zone de production]</text>
+    <text x="1398" y="1796" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">Production : [valeur] unités / jour</text>
+    <text x="1398" y="1823" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Statut</text>
+    <rect x="1398" y="1835" width="299" height="46" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1410" y="1864" font-family="Arial, sans-serif" font-size="14" fill="#606060" font-weight="400">En fonctionnement  ▾</text>
+    <rect x="1398" y="1936" width="299" height="44" rx="8" fill="#fff" stroke="#c6c6c6" />
+    <text x="1412" y="1964" font-family="Arial, sans-serif" font-size="14" fill="#202020" font-weight="600">Supprimer</text>
+    <text x="1380" y="2052" font-family="Arial, sans-serif" font-size="12" fill="#606060" font-weight="400">Les changements restent en mémoire.</text>
+    <text x="1380" y="2075" font-family="Arial, sans-serif" font-size="11" fill="#606060" font-weight="400">Un rechargement restaure les données initiales.</text>
+  </g>
+</svg>
