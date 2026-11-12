@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard.jsx'
 import Machines from './pages/Machines.jsx'
 import AddMachine from './pages/AddMachine.jsx'
 
+const permittedStatuses = ['En fonctionnement', "À l'arrêt", 'En panne']
+
 export default function App() {
   const [machines, setMachines] = useState([])
   const [loading, setLoading] = useState(true)
@@ -48,15 +50,48 @@ export default function App() {
     }
   }, [])
 
-  // The same array is passed to every page; navigation never remounts App.
+  function addMachine(machine) {
+    if (loading || error || !machine ||
+      !['id', 'name', 'zone'].every(field => typeof machine[field] === 'string' && machine[field].trim()) ||
+      !permittedStatuses.includes(machine.status) ||
+      !Number.isInteger(machine.dailyProduction) || machine.dailyProduction < 0) return
+
+    // Snapshot the flat record before scheduling: callers cannot mutate it later.
+    const candidate = {
+      id: machine.id,
+      name: machine.name,
+      zone: machine.zone,
+      status: machine.status,
+      dailyProduction: machine.dailyProduction,
+    }
+    setMachines(previous => previous.some(item => item.id === candidate.id)
+      ? previous
+      : [...previous, candidate])
+  }
+
+  function updateMachineStatus(id, status) {
+    if (loading || error || !permittedStatuses.includes(status)) return
+    setMachines(previous => {
+      if (!previous.some(machine => machine.id === id && machine.status !== status)) return previous
+      return previous.map(machine => machine.id === id ? { ...machine, status } : machine)
+    })
+  }
+
+  function deleteMachine(id) {
+    if (loading || error) return
+    setMachines(previous => previous.some(machine => machine.id === id)
+      ? previous.filter(machine => machine.id !== id)
+      : previous)
+  }
+
   const machineData = { machines, loading, error }
 
   return (
     <AppLayout>
       <Routes>
         <Route path="/" element={<Dashboard {...machineData} />} />
-        <Route path="/machines" element={<Machines {...machineData} />} />
-        <Route path="/machines/new" element={<AddMachine {...machineData} />} />
+        <Route path="/machines" element={<Machines {...machineData} onUpdateMachineStatus={updateMachineStatus} onDeleteMachine={deleteMachine} />} />
+        <Route path="/machines/new" element={<AddMachine {...machineData} onAddMachine={addMachine} />} />
         <Route path="*" element={
           <section aria-labelledby="not-found-title">
             <PageHeading id="not-found-title" title="Page introuvable" description="Cette page n’existe pas." />

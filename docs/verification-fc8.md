@@ -1,7 +1,8 @@
-# FC-8 — Chargement et état partagé (en cours)
+# FC-8 — Chargement, état partagé et callbacks immuables
 
-Vérification mise à jour le 11 novembre 2026 après réception du jeu officiel.
-Départ de cette reprise : main propre, commit c2dd392 ; FC-8 In Progress.
+Vérification finale mise à jour le 12 novembre 2026 après préparation des callbacks.
+Départ : main sur dec2e25 ; FC-8 In Progress. Une modification locale supprimait
+uniquement un commentaire App.jsx : son intention a été conservée.
 FC-6 et FC-7 avaient été vérifiés Done avant le développement initial.
 
 ## Données officielles reçues et validées
@@ -29,12 +30,33 @@ contre les réponses tardives. Les trois pages reçoivent les mêmes données pa
 props ; MachineDataState distingue attente, erreur, succès vide et contenu.
 Les liens restent disponibles pendant l’attente et après une erreur.
 
-Aucun CRUD ni calcul de dashboard ajouté. Les fonctions de modification
-mentionnées dans Jira restent des contrats documentés, conformément à la
-contrainte explicite « No machine CRUD yet ». Leur implémentation et leur
-validation ne sont pas revendiquées dans ce travail.
+Les trois callbacks sont maintenant implémentés dans App et passés par props,
+avec functional setMachines, copies d’arrays/objets et contrôle des IDs/statuts.
+Aucune interface CRUD ni calcul de dashboard ajouté. Les callbacks sont invoqués
+uniquement par les tests pour l’instant ; les parcours utilisateurs restent aux
+tickets FC-11, FC-12 et FC-13. Contrats détaillés dans architecture.md.
 
 ## Tests exécutés et résultats
+
+`npm run test:callbacks` : 18 tests isolés réussis, neuf par serveur dev/preview,
+avec Node test et Playwright en dépendance de développement. Fichier suivi :
+tests/fc8-callbacks.cjs. Les tests appellent les véritables callbacks des props,
+jamais une copie de leur implémentation. Une sonde DevTools reste exclusivement
+dans le navigateur de test. Les anciennes arrays et les objets sont gelés avec
+Object.freeze pour détecter les mutations.
+
+Cas vérifiés : copie de l’entrée de l’appelant, records invalides, statut interdit,
+ID dupliqué, ajouts groupés de deux IDs distincts, doublon dans le même batch,
+statuts autorisés, copie du seul objet ciblé, conservation des autres références,
+ID inconnu, statut inchangé, mêmes noms avec IDs différents, suppressions groupées
+jusqu’au parc vide, refus pendant loading. Le parcours de test utilise les trois
+callbacks réels ; leurs changements survivent à la navigation sans fetch, puis
+refresh restaure les huit machines officielles. Le JSON disque reste inchangé.
+
+La première tentative ne pouvait pas joindre les serveurs arrêtés (connexion
+refusée) ; après leur démarrage, les 18 tests ont réussi. Ce n’était pas une
+erreur des callbacks. Les résultats ci-dessous de chargement ont aussi été
+revérifiés sur le code final.
 
 - `npm.cmd run build` : succès, 101 modules transformés.
 - Chrome headless avec Playwright sur Vite dev (5173) et production preview (4173).
@@ -91,17 +113,17 @@ aucune erreur console. Le contrôle de validation JSON est relancé après les t
 | Loading visible puis terminé | Vérifié |
 | Tableau vide valide | Vérifié |
 | Source d’état unique sur les pages | Vérifié par identité de référence |
-| Fonctions de modification immuables | Non implémentées sous la contrainte sans CRUD ; seul le setter React est exercé par le test |
-| Conservation en navigation | Vérifiée avec état issu du fichier officiel et remplacement synthétique ; vrais parcours métier différés |
+| Fonctions de modification immuables | Vérifiées sur les trois callbacks réels avec arrays/objets gelés et appels groupés |
+| Conservation en navigation | Vérifiée après appel des vrais callbacks, sur le fichier officiel ; interfaces utilisateur toujours différées |
 | Restauration au refresh | Vérifiée : retour exact aux huit machines officielles |
 | JSON inchangé et absence de persistance | Vérifié : fichier intact, GET uniquement, aucun stockage ajouté |
 | États indépendants du CRUD | Vérifié |
 
-FC-8 reste In Progress uniquement pour le critère des fonctions de modification
-effectives, non implémentées sous la consigne explicite sans CRUD. Le remplacement
-immuable dans le test ne valide pas des callbacks métier inexistants. Le blocage
-du fichier manquant est levé ; il ne justifie plus le statut. Aucun autre ticket
-n’est commencé ou modifié, aucun push.
+Les dix critères FC-8 sont maintenant vérifiés. Le dernier critère est levé par
+les callbacks effectifs et leurs tests, pas par une simple simulation du setter.
+La clôture Jira s’appuie sur ces preuves et le commit local final. Aucun autre
+ticket n’est commencé ou modifié, aucun push. Les interfaces utilisateur ne sont
+pas déclarées réalisées.
 
 ## Références
 

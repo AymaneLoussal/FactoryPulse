@@ -1,7 +1,7 @@
 # FactoryPulse
 
 Socle React/Vite en JavaScript/JSX (FC-6), routage (FC-7) et mécanisme de
-chargement avec état partagé et jeu officiel de huit machines (FC-8 en cours).
+chargement, état partagé et callbacks immuables avec huit machines officielles (FC-8).
 
 ## Lancer le projet
 
@@ -67,8 +67,28 @@ Les tests de succès réel utilisent ce fichier sans interception. Les scénario
 de loading, erreur et parc vide utilisent une fixture temporaire explicitement
 non officielle, servie par interception dans `.verification/` ignoré par Git.
 Voir [les résultats et limites FC-8](docs/verification-fc8.md).
-Statistiques, recherche, filtres et CRUD ne sont pas implémentés. Aucun backend
+Les callbacks centralisés addMachine, updateMachineStatus et deleteMachine sont
+préparés dans App ; leurs contrats sont dans docs/architecture.md. Les interfaces
+CRUD, statistiques, recherche et filtres restent aux tickets dédiés. Aucun backend
 ni stockage persistant n’est ajouté ; le JSON n’est jamais écrit par l’application.
+
+## Tests des callbacks FC-8
+
+Après `npm ci`, démarrer dev et preview dans deux terminaux :
+
+```sh
+npm run build
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
+```
+
+Dans un troisième terminal : `npm run test:callbacks`.
+Les tests Node/Playwright invoquent les vrais callbacks reçus par props dans des
+pages isolées, sans action CRUD visible ni sonde dans le code applicatif.
+Chrome installé est utilisé sous Windows ; ailleurs installer Chromium avec
+`npx playwright install chromium` ou fournir `FC8_CHROME_PATH`. La variable
+`FC8_TEST_PORTS` permet de choisir les ports (défaut : `5173,4173`).
+Playwright est uniquement une dépendance de développement.
 
 Les responsabilités, contrats futurs et explications en darija sont détaillés
 dans [docs/architecture.md](docs/architecture.md).

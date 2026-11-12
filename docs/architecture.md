@@ -10,8 +10,9 @@ sans clé dépendant de l’URL : les pages changent, leur ancêtre commun reste
 Le titre de page, le panneau réutilisable et le CSS du socle sont conservés.
 FC-8 ajoute trois useState dans App (`machines`, `loading`, `error`) et un
 useEffect de chargement initial. MachineDataState affiche les états communs.
-Les fonctions métier ci-dessous restent des contrats prévus : aucun CRUD n’est
-implémenté à cette étape, conformément aux instructions de FC-8.
+FC-8 fournit aussi les trois callbacks immuables dans App. Ils sont transmis
+par props mais aucune interface CRUD n’est ajoutée : les commandes, formulaire
+et confirmation restent à FC-11, FC-12 et FC-13.
 
 ## Propriété de l’état et contrats futurs
 
@@ -19,15 +20,34 @@ implémenté à cette étape, conformément aux instructions de FC-8.
 Il reste déjà monté au-dessus des pages routées par React Router (FC-7).
 Les trois pages reçoivent la même référence `machines` et les valeurs `loading`
 et `error` par props. Changer de route ne recrée pas cet état et ne relance pas
-le chargement. Les futurs callbacks seront ajoutés avec les fonctionnalités.
+le chargement. AddMachine reçoit onAddMachine ; Machines reçoit
+onUpdateMachineStatus et onDeleteMachine. Les pages ne les déclenchent pas encore.
 
 | Contrat prévu | Responsabilité | Ticket |
 | --- | --- | --- |
 | `machines` | Tableau partagé créé dans App ; aucune copie indépendante par page | Implémenté FC-8 |
 | `loading`, `error` | Résultat du chargement initial, distinct d’un tableau vide | Implémenté FC-8 |
-| `addMachine(values)` | Valider, générer un ID unique et ajouter une machine | FC-12 |
-| `updateMachineStatus(id, status)` | Modifier la machine ciblée sans mutation | FC-11 |
-| `deleteMachine(id)` | Retirer la machine après confirmation identifiant son nom | FC-13 |
+| `addMachine(machine)` | Ajouter un record complet avec ID fourni et non présent | Callback FC-8 ; formulaire et génération ID FC-12 |
+| `updateMachineStatus(id, status)` | Copier uniquement la machine ciblée avec un statut autorisé | Callback FC-8 ; commande utilisateur FC-11 |
+| `deleteMachine(id)` | Retirer uniquement l’ID ciblé | Callback FC-8 ; action et confirmation FC-13 |
+
+Les trois callbacks utilisent `setMachines(previous => ...)` et retournent void.
+Ils ne modifient rien pendant loading ou après une erreur de chargement. Il faut
+utiliser les callbacks des props courantes, après un chargement réussi.
+
+`addMachine` attend les cinq champs id/name/zone/status/dailyProduction : textes
+non vides, statut autorisé et production entière non négative. Le record est
+copié avant la mise en file de l’update ; modifier ensuite l’objet de l’appelant
+ne modifie pas l’état. L’ID doit être fourni par le futur appelant : FC-12 gérera
+sa génération. L’unicité est contrôlée à l’intérieur de l’update fonctionnelle,
+donc deux ajouts rapprochés avec le même ID ne créent pas de doublon.
+
+Un record invalide, un ID dupliqué ou inexistant, un statut interdit ou déjà
+actif sont des no-op : même array conservée, aucune exception ni modification.
+Deux machines peuvent avoir le même nom ; seule l’identité ID cible les opérations.
+L’ajout conserve les valeurs fournies ; les erreurs de champ, le trim et les
+retours utilisateur du formulaire restent à FC-12. Ne pas interpréter le retour
+void comme une confirmation synchrone de réussite.
 
 Le useEffect appelle uniquement `fetch('/machines.json')`, vérifie `response.ok`,
 lit response.json() et exige Array.isArray(data). Une réponse `[]` est valide.
@@ -44,8 +64,8 @@ Son nettoyage désactive les mises à jour tardives et annule Fetch avec
 AbortController. Le cycle de contrôle supplémentaire de StrictMode en dev peut
 lancer puis annuler une première requête ; ce n’est pas un rechargement par route.
 
-Les futures modifications produiront de nouveaux tableaux/objets avec des mises
-à jour fonctionnelles de l’état. Le JSON restera inchangé ; un vrai refresh
+Les callbacks produisent de nouveaux tableaux/objets avec des mises
+à jour fonctionnelles de l’état. Le JSON reste inchangé ; un vrai refresh
 recrée App et recharge son contenu initial. Ce comportement est maintenant vérifié
 avec le vrai fichier officiel sur dev et production preview, sans interception.
 Aucun localStorage, sessionStorage ni IndexedDB.
@@ -88,7 +108,7 @@ BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال ا
 `App` و`AppLayout` خارج Routes، يعني كيبقاو مركّبين ملي كتبدّل الصفحة.
 غير الصفحة المطابقة كتتبدل؛ ما كنعاودوش createRoot وما كنربطوش key بالعنوان.
 اختبار FC-8 تأكد أن array مشتركة كتبقى أثناء التنقل، حتى بعدما أداة الاختبار
-كتعوّضها بنسخة جديدة. هاد التبديل غير فالاختبار؛ CRUD الفعلي باقي للتذاكر ديالو.
+كتبدلها باستعمال callbacks الحقيقية. الواجهات ديال CRUD باقي للتذاكر ديالها.
 
 `AppLayout` هو الإطار المشترك: العنوان والمحتوى الرئيسي. `PageHeading`
 كيستقبل العنوان والوصف عبر props، و`Panel` كيستقبل المحتوى عبر children.
@@ -108,7 +128,16 @@ BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال ا
 `loading` كيبين انتظار الجواب، و`error` كيبين علاش التحميل فشل. array خاوية
 كتعني نجاح بلا ماكينات، ماشي خطأ. refresh كيعيد تركيب App وكيطلب JSON من جديد؛
 تأكدنا مع الملف الرسمي أنه كيرجع نفس الثمانية ماكينات، بلا تخزين دائم.
-الإضافة والحذف وتغيير الحالة ما تزادوش.
+الـcallbacks ديال الإضافة والحذف وتغيير الحالة واجدين؛ الأزرار والفورم ما تزادوش.
+
+`map()` كيدوز على اللائحة وكيعطينا array جديدة. فالتحديث كننسخو غير الماكينة
+المقصودة بـ `{ ...machine, status }`؛ الباقي كيبقى نفسو بلا تغيير.
+`filter()` كيعطينا لائحة جديدة فيها غير الماكينات اللي ID ديالها مختلف على
+اللي بغينا نحيدو. `...previous` كينسخ عناصر اللائحة فـ array جديدة باش نزيدو
+الماكينة بلا push على القديمة. هادي نسخ سطحية مناسبة للحقول البسيطة ديال الموديل.
+
+`setMachines(previous => ...)` كيعطينا آخر state وقت تطبيق التغيير، حتى إلا
+تناداو جوج callbacks بسرعة. هكذا التحديث الثاني ما كيضيعش التحديث الأول.
 
 `public/machines.json` فيه دابا نفس البيانات الرسمية اللي عطا المستخدم، بلا تبديل.
 `design/` وملف cadrage.md بقاو كيف كانو. `node_modules/` فيه المكتبات
