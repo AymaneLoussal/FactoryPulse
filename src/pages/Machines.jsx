@@ -4,7 +4,7 @@ import PageHeading from '../components/ui/PageHeading.jsx'
 import Panel from '../components/ui/Panel.jsx'
 import MachineDataState from '../components/ui/MachineDataState.jsx'
 
-export default function Machines({ machines, loading, error, onUpdateMachineStatus }) {
+export default function Machines({ machines, loading, error, onUpdateMachineStatus, onDeleteMachine }) {
   const location = useLocation()
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('Tous')
@@ -33,6 +33,7 @@ export default function Machines({ machines, loading, error, onUpdateMachineStat
               <label>Statut de {machine.name} <select value={machine.status} onChange={event => onUpdateMachineStatus(machine.id, event.target.value)}>
                 <option>En fonctionnement</option><option>À l'arrêt</option><option>En panne</option>
               </select></label>
+              <button type="button" onClick={() => { if (window.confirm(`Supprimer ${machine.name} (${machine.id}) ?`)) onDeleteMachine(machine.id) }}>Supprimer {machine.name}</button>
             </article>
           </Panel>)}</div>
         )}
