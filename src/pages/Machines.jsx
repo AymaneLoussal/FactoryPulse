@@ -4,7 +4,7 @@ import PageHeading from '../components/ui/PageHeading.jsx'
 import Panel from '../components/ui/Panel.jsx'
 import MachineDataState from '../components/ui/MachineDataState.jsx'
 
-export default function Machines({ machines, loading, error }) {
+export default function Machines({ machines, loading, error, onUpdateMachineStatus }) {
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('Tous')
   const reset = () => { setSearch(''); setStatus('Tous') }
@@ -27,7 +27,11 @@ export default function Machines({ machines, loading, error }) {
         </div>
         {visible.length === 0 ? <p role="status">Aucune machine ne correspond aux filtres. <button type="button" onClick={reset}>Réinitialiser les filtres</button></p> : (
           <div className="machine-grid">{visible.map(machine => <Panel key={machine.id}>
-            <article aria-label={machine.name}><h3>{machine.name}</h3><p>Zone : {machine.zone}</p><p>Statut : {machine.status}</p><p>Production : {machine.dailyProduction} unités / jour</p></article>
+            <article aria-label={machine.name}><h3>{machine.name}</h3><p>Zone : {machine.zone}</p><p>Production : {machine.dailyProduction} unités / jour</p>
+              <label>Statut de {machine.name} <select value={machine.status} onChange={event => onUpdateMachineStatus(machine.id, event.target.value)}>
+                <option>En fonctionnement</option><option>À l'arrêt</option><option>En panne</option>
+              </select></label>
+            </article>
           </Panel>)}</div>
         )}
       </MachineDataState>
