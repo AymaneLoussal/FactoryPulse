@@ -21,8 +21,8 @@ export default function Machines({ machines, loading, error, onUpdateMachineStat
       <Link className="text-link" to="/machines/new">+ Ajouter une machine</Link>
       <MachineDataState machines={machines} loading={loading} error={error}>
         <div className="filters">
-          <label>Rechercher par nom <input type="search" value={search} onChange={event => setSearch(event.target.value)} /></label>
-          <label>Statut <select value={status} onChange={event => setStatus(event.target.value)}>
+          <label htmlFor="search-machine">Rechercher par nom <input id="search-machine" type="search" value={search} onChange={event => setSearch(event.target.value)} /></label>
+          <label htmlFor="filter-status">Statut <select id="filter-status" value={status} onChange={event => setStatus(event.target.value)}>
             <option>Tous</option><option>En fonctionnement</option><option>À l'arrêt</option><option>En panne</option>
           </select></label>
           <button type="button" onClick={reset}>Réinitialiser les filtres</button>
@@ -30,7 +30,7 @@ export default function Machines({ machines, loading, error, onUpdateMachineStat
         {visible.length === 0 ? <p role="status">Aucune machine ne correspond aux filtres. <button type="button" onClick={reset}>Réinitialiser les filtres</button></p> : (
           <div className="machine-grid">{visible.map(machine => <Panel key={machine.id}>
             <article aria-label={machine.name}><h3>{machine.name}</h3><p>Zone : {machine.zone}</p><p>Production : {machine.dailyProduction} unités / jour</p>
-              <label>Statut de {machine.name} <select value={machine.status} onChange={event => onUpdateMachineStatus(machine.id, event.target.value)}>
+              <label htmlFor={`status-${machine.id}`}>Statut de {machine.name} <select id={`status-${machine.id}`} value={machine.status} onChange={event => onUpdateMachineStatus(machine.id, event.target.value)}>
                 <option>En fonctionnement</option><option>À l'arrêt</option><option>En panne</option>
               </select></label>
               <button type="button" onClick={() => { if (window.confirm(`Supprimer ${machine.name} (${machine.id}) ?`)) onDeleteMachine(machine.id) }}>Supprimer {machine.name}</button>
