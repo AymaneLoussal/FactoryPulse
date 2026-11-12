@@ -39,6 +39,9 @@ input, select, button { font: inherit; min-height: 44px; max-width: 100%; border
 button { cursor: pointer; background: white; color: var(--color-text); }
 .machine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem; }
 .machine-grid h3 { margin: 0 0 .5rem; overflow-wrap: anywhere; }
+.machine-form { display: grid; gap: .5rem; max-width: 760px; }
+.machine-form label { margin-top: .5rem; font-weight: 600; }
+.machine-form button { margin-top: 1rem; background: var(--color-action); color: white; }
 .data-error { color: #a52d26; }
 :focus-visible { outline: 2px solid var(--color-action); outline-offset: 3px; }
 .skip-link { position: absolute; top: 0.5rem; left: 1rem; transform: translateY(-200%); background: #fff; color: var(--color-text); padding: 0.5rem 1rem; border-radius: 8px; }

@@ -1,10 +1,11 @@
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { useState } from 'react'
 import PageHeading from '../components/ui/PageHeading.jsx'
 import Panel from '../components/ui/Panel.jsx'
 import MachineDataState from '../components/ui/MachineDataState.jsx'
 
 export default function Machines({ machines, loading, error, onUpdateMachineStatus }) {
+  const location = useLocation()
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('Tous')
   const reset = () => { setSearch(''); setStatus('Tous') }
@@ -16,6 +17,7 @@ export default function Machines({ machines, loading, error, onUpdateMachineStat
         title="Parc de machines"
         description="Retrouvez les informations de vos machines."
       />
+      {location.state?.message && <p role="status">{location.state.message}</p>}
       <Link className="text-link" to="/machines/new">+ Ajouter une machine</Link>
       <MachineDataState machines={machines} loading={loading} error={error}>
         <div className="filters">
