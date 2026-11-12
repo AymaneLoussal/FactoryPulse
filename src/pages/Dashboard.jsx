@@ -11,11 +11,15 @@ export default function Dashboard({ machines, loading, error }) {
         title="Vue d’ensemble"
         description="Suivez l’état de votre parc industriel."
       />
-      <MachineDataState machines={machines} loading={loading} error={error}>
-        <Panel>
-          <p>Les indicateurs du parc seront regroupés ici.</p>
-        </Panel>
-      </MachineDataState>
+      {loading || error ? (
+        <MachineDataState machines={machines} loading={loading} error={error} />
+      ) : (
+        <div className="stats-grid">
+          <Panel><p>Total des machines</p><strong className="stat-value">{machines.length}</strong></Panel>
+          <Panel><p>En fonctionnement</p><strong className="stat-value">{machines.filter(machine => machine.status === 'En fonctionnement').length}</strong></Panel>
+          <Panel><p>En panne</p><strong className="stat-value">{machines.filter(machine => machine.status === 'En panne').length}</strong></Panel>
+        </div>
+      )}
       <Link className="text-link" to="/machines">Voir les machines →</Link>
     </section>
   )
