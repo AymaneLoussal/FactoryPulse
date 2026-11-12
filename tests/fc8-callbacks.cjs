@@ -153,6 +153,7 @@ for (const port of (process.env.FC8_TEST_PORTS || '5173,4173').split(',').map(Nu
   test(`${port}: queued deletes can remove the last machine without mutation`, () => isolated(port, async page => {
     await page.evaluate(() => window.original.forEach(machine => window.probe.actions.onDeleteMachine(machine.id)))
     await page.waitForFunction(() => window.probe.machines.length === 0)
+    await nav(page, 'Machines')
     await page.getByText('Aucune machine dans le parc.', { exact: true }).waitFor()
     assert.equal(await page.evaluate(() => window.original.length), 8)
   }))
