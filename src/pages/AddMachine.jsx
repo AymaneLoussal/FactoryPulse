@@ -29,7 +29,8 @@ export default function AddMachine({ machines, loading, error, onAddMachine }) {
     setErrors(next)
     if (Object.keys(next).length) return
     let id
-    do { id = `M-${crypto.randomUUID()}` } while (machines.some(machine => machine.id === id))
+    let number = 1
+    do { id = `M-${String(number++).padStart(3, '0')}` } while (machines.some(machine => machine.id === id))
     submitted.current = true
     onAddMachine({ id, name: form.name.trim(), zone: form.zone.trim(), status: form.status, dailyProduction: Number(form.dailyProduction) })
     navigate('/machines', { state: { message: 'Machine ajoutée.' } })

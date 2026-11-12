@@ -6,7 +6,7 @@ const original = fs.readFileSync('public/machines.json')
 let browser
 before(async () => { const chrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe'; browser = await chromium.launch({ headless: true, executablePath: process.env.FC8_CHROME_PATH || (fs.existsSync(chrome) ? chrome : undefined) }) })
 after(async () => { await browser?.close(); assert.deepEqual(fs.readFileSync('public/machines.json'), original) })
-const base = 'http://127.0.0.1:5173'
+const base = process.env.FACTORYPULSE_TEST_URL || 'http://127.0.0.1:5173'
 async function counts(page, expected) { await page.getByText('Total des machines').waitFor(); assert.deepEqual(await page.locator('.stat-value').allTextContents(), expected) }
 async function home(page) { await page.getByRole('link', {name:'Dashboard',exact:true}).click(); await counts(page, ['8','4','2']) }
 

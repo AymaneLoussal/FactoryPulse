@@ -17,7 +17,7 @@ Exécution Chrome/Playwright locale sur Vite, dataset officiel, build production
 | HTTP 404, chargement et annulation de requête | Réussi | .verification/fc8-loading.cjs, exécution précédente FC-8 |
 | Conservation en navigation, refresh, absence de persistance et JSON intact | Réussi | test recette et tests callbacks ; hash JSON contrôlé |
 | 375/768/1280, focus et clavier | Réussi | test recette et .verification/fc14-interactions.cjs |
-| Ajout quand crypto.randomUUID est indisponible | Échoué | test recette, groupe compatibilité |
+| Ajout quand crypto.randomUUID est indisponible | Réussi après correction FC-17 | test recette, groupe compatibilité |
 
 ## Défaut transmis à FC-17
 
@@ -26,7 +26,12 @@ Exécution Chrome/Playwright locale sur Vite, dataset officiel, build production
   remplir nom, zone, production zéro, puis soumettre.
 - Attendu : ajout d’une machine avec un ID unique et retour à la liste.
 - Observé : aucun retour de succès ; l’appel à `crypto.randomUUID()` échoue.
-- Statut initial : ouvert ; correction et régression à consigner sous FC-17.
+- Correction FC-17 : génération séquentielle du premier ID M-xxx libre dans le
+  parc courant, sans crypto ; contrôle de collision conservé dans le callback.
+- Régression : suite recette rejouée après correction, y compris le scénario
+  compatibilité et deux ajouts avec IDs distincts : 9 groupes réussis sur dev
+  et 9 sur production preview. Build réussi, aucune erreur console sur le
+  parcours principal. `FACTORYPULSE_TEST_URL` permet de choisir le serveur.
 
 Figma : fichier consulté par accès authentifié ; accès évaluateur toujours non vérifié.
 GitHub : commits de développement locaux non publiés, selon la consigne sans push.
