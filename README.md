@@ -1,7 +1,7 @@
 # FactoryPulse
 
-Socle React/Vite en JavaScript/JSX (FC-6), routage (FC-7) et mécanisme de
-chargement, état partagé et callbacks immuables avec huit machines officielles (FC-8).
+Application React/Vite en JavaScript/JSX pour consulter et gérer un parc de
+machines industrielles à partir de huit machines initiales.
 
 ## Lancer le projet
 
@@ -69,8 +69,24 @@ non officielle, servie par interception dans `.verification/` ignoré par Git.
 Voir [les résultats et limites FC-8](docs/verification-fc8.md).
 Les callbacks centralisés addMachine, updateMachineStatus et deleteMachine sont
 préparés dans App ; leurs contrats sont dans docs/architecture.md. Les interfaces
-CRUD, statistiques, recherche et filtres restent aux tickets dédiés. Aucun backend
+CRUD, statistiques, recherche et filtres sont disponibles. Aucun backend
 ni stockage persistant n’est ajouté ; le JSON n’est jamais écrit par l’application.
+
+Les trois statuts sont exactement « En fonctionnement », « À l'arrêt » et
+« En panne ». Une machine possède id, name, zone, status et dailyProduction.
+Le formulaire crée un ID disponible et valide les champs ; la suppression utilise
+une confirmation. Les modifications restent en mémoire jusqu’au rechargement.
+
+## Démonstration
+
+1. Sur le dashboard, vérifier 8 machines, 4 en fonctionnement et 2 en panne.
+2. Ouvrir Machines, rechercher un nom, combiner avec un statut et réinitialiser.
+3. Modifier un statut puis revenir au dashboard pour voir les compteurs changer.
+4. Ajouter une machine : essayer une saisie invalide, puis une production zéro.
+5. Annuler puis confirmer une suppression et observer la liste et les compteurs.
+6. Recharger la page : les huit machines originales sont restaurées.
+
+La recette et les limites de livraison figurent dans [docs/recette.md](docs/recette.md).
 
 ## Tests des callbacks FC-8
 
@@ -82,9 +98,9 @@ npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
 ```
 
-Dans un troisième terminal : `npm run test:callbacks`.
+Dans un troisième terminal : `npm run test:callbacks` et `npm run test:recette`.
 Les tests Node/Playwright invoquent les vrais callbacks reçus par props dans des
-pages isolées, sans action CRUD visible ni sonde dans le code applicatif.
+pages isolées, sans sonde dans le code applicatif. La recette teste les parcours visibles.
 Chrome installé est utilisé sous Windows ; ailleurs installer Chromium avec
 `npx playwright install chromium` ou fournir `FC8_CHROME_PATH`. La variable
 `FC8_TEST_PORTS` permet de choisir les ports (défaut : `5173,4173`).

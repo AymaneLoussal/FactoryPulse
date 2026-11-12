@@ -10,9 +10,8 @@ sans clé dépendant de l’URL : les pages changent, leur ancêtre commun reste
 Le titre de page, le panneau réutilisable et le CSS du socle sont conservés.
 FC-8 ajoute trois useState dans App (`machines`, `loading`, `error`) et un
 useEffect de chargement initial. MachineDataState affiche les états communs.
-FC-8 fournit aussi les trois callbacks immuables dans App. Ils sont transmis
-par props mais aucune interface CRUD n’est ajoutée : les commandes, formulaire
-et confirmation restent à FC-11, FC-12 et FC-13.
+FC-8 fournit les trois callbacks immuables dans App. Les commandes, formulaire
+et confirmation sont reliés à ces callbacks dans FC-11, FC-12 et FC-13.
 
 ## Propriété de l’état et contrats futurs
 
@@ -21,7 +20,8 @@ Il reste déjà monté au-dessus des pages routées par React Router (FC-7).
 Les trois pages reçoivent la même référence `machines` et les valeurs `loading`
 et `error` par props. Changer de route ne recrée pas cet état et ne relance pas
 le chargement. AddMachine reçoit onAddMachine ; Machines reçoit
-onUpdateMachineStatus et onDeleteMachine. Les pages ne les déclenchent pas encore.
+onUpdateMachineStatus et onDeleteMachine. Les pages les déclenchent depuis les
+contrôles de statut, le formulaire validé et la confirmation de suppression.
 
 | Contrat prévu | Responsabilité | Ticket |
 | --- | --- | --- |
@@ -38,15 +38,15 @@ utiliser les callbacks des props courantes, après un chargement réussi.
 `addMachine` attend les cinq champs id/name/zone/status/dailyProduction : textes
 non vides, statut autorisé et production entière non négative. Le record est
 copié avant la mise en file de l’update ; modifier ensuite l’objet de l’appelant
-ne modifie pas l’état. L’ID doit être fourni par le futur appelant : FC-12 gérera
-sa génération. L’unicité est contrôlée à l’intérieur de l’update fonctionnelle,
+ne modifie pas l’état. Le formulaire FC-12 fournit le premier ID M-xxx disponible.
+L’unicité est contrôlée à l’intérieur de l’update fonctionnelle,
 donc deux ajouts rapprochés avec le même ID ne créent pas de doublon.
 
 Un record invalide, un ID dupliqué ou inexistant, un statut interdit ou déjà
 actif sont des no-op : même array conservée, aucune exception ni modification.
 Deux machines peuvent avoir le même nom ; seule l’identité ID cible les opérations.
-L’ajout conserve les valeurs fournies ; les erreurs de champ, le trim et les
-retours utilisateur du formulaire restent à FC-12. Ne pas interpréter le retour
+L’ajout conserve les valeurs fournies ; le formulaire réalise validation, trim et
+retour utilisateur. Ne pas interpréter le retour
 void comme une confirmation synchrone de réussite.
 
 Le useEffect appelle uniquement `fetch('/machines.json')`, vérifie `response.ok`,
@@ -70,9 +70,9 @@ recrée App et recharge son contenu initial. Ce comportement est maintenant vér
 avec le vrai fichier officiel sur dev et production preview, sans interception.
 Aucun localStorage, sessionStorage ni IndexedDB.
 
-Les statistiques seront dérivées du tableau partagé (FC-9), sans état redondant.
-Recherche et filtre resteront locaux à Machines (FC-10). La saisie et les erreurs
-resteront locales à AddMachine (FC-12). Statuts autorisés : En fonctionnement,
+Les statistiques sont dérivées du tableau partagé (FC-9), sans état redondant.
+Recherche et filtre sont locaux à Machines (FC-10). La saisie et les erreurs
+sont locales à AddMachine (FC-12). Statuts autorisés : En fonctionnement,
 À l'arrêt et En panne.
 
 ## Répartition des composants
@@ -84,10 +84,9 @@ resteront locales à AddMachine (FC-12). Statuts autorisés : En fonctionnement,
 | `MachineDataState` | Loading, erreur, vide, ou contenu de la page si données disponibles | Créé FC-8 |
 | Navigation | Liens React Router et page active | Créé FC-7 |
 | StatCard | Affichage d’une statistique dérivée | Prévu FC-9 |
-| SearchInput, StatusFilter | Recherche et filtre contrôlés | Prévus FC-10 |
-| MachineList, MachineCard | Liste et informations des machines | Prévus FC-10 |
-| MachineForm | Champs contrôlés et erreurs associées | Prévu FC-12 |
-| DeleteConfirmation | Confirmation et annulation | Prévu FC-13 |
+| Machines | Recherche, filtre, liste et statut | Implémenté FC-10/11 |
+| AddMachine | Champs contrôlés et erreurs associées | Implémenté FC-12 |
+| Confirmation native | Confirmation et annulation | Implémenté FC-13 |
 
 On ajoutera ces composants au moment où ils auront un usage réel. Aucun composant
 vide, faux callback ou bibliothèque d’état supplémentaire n’est nécessaire.
@@ -108,14 +107,14 @@ BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال ا
 `App` و`AppLayout` خارج Routes، يعني كيبقاو مركّبين ملي كتبدّل الصفحة.
 غير الصفحة المطابقة كتتبدل؛ ما كنعاودوش createRoot وما كنربطوش key بالعنوان.
 اختبار FC-8 تأكد أن array مشتركة كتبقى أثناء التنقل، حتى بعدما أداة الاختبار
-كتبدلها باستعمال callbacks الحقيقية. الواجهات ديال CRUD باقي للتذاكر ديالها.
+كتبدلها باستعمال callbacks الحقيقية والواجهات ديال الماكينات.
 
 `AppLayout` هو الإطار المشترك: العنوان والمحتوى الرئيسي. `PageHeading`
 كيستقبل العنوان والوصف عبر props، و`Panel` كيستقبل المحتوى عبر children.
 هكذا نفس الشكل كنعاودو نستعملوه بلا ما نكررو الكود.
 
 `Dashboard` مخصص للمؤشرات، `Machines` للائحة، و`AddMachine` للإضافة.
-دابا هادو غير واجهات أولية: الحسابات والبحث والفورم مازال ما تخدموش.
+الحسابات والبحث والفورم وتغيير الحالة والحذف مربوطين بالحالة المشتركة.
 
 `useState` كيعطي App ذاكرة بين render وrender. `setMachines(data)` كيبدّل
 الحالة وكيطلب من React يعاود العرض؛ تغيير variable عادية بوحدها ما كيديرش هاد الشي.
@@ -128,7 +127,7 @@ BrowserRouter كيتعامل حتى مع الرجوع والتقدم ديال ا
 `loading` كيبين انتظار الجواب، و`error` كيبين علاش التحميل فشل. array خاوية
 كتعني نجاح بلا ماكينات، ماشي خطأ. refresh كيعيد تركيب App وكيطلب JSON من جديد؛
 تأكدنا مع الملف الرسمي أنه كيرجع نفس الثمانية ماكينات، بلا تخزين دائم.
-الـcallbacks ديال الإضافة والحذف وتغيير الحالة واجدين؛ الأزرار والفورم ما تزادوش.
+الـcallbacks ديال الإضافة والحذف وتغيير الحالة مربوطين بالأزرار والفورم.
 
 `map()` كيدوز على اللائحة وكيعطينا array جديدة. فالتحديث كننسخو غير الماكينة
 المقصودة بـ `{ ...machine, status }`؛ الباقي كيبقى نفسو بلا تغيير.
